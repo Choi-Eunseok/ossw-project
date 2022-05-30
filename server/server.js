@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
-const test = require('.//Router/test');
+const api = require('./Router/api');
 
-app.use('/', test);
+app.use('/', api);
 
-const port=23023;
-app.listen(port, ()=>{console.log(`Listening on port ${port}`)});
+const port = 23023;
+app.listen(port, () => { console.log(`Listening on port ${port}`) });
