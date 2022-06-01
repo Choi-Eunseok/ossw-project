@@ -1,0 +1,15 @@
+.SideChat {
+    color: yellow;
+    background-color: gray;
+    position: absolute;
+    z-index: 999;
+    right:100px;
+    top:0px;
+    transition: 0ms;
+}
+
+.scrollmake{
+    height:1200px;
+    width:100px;
+    background-color: red;
+}

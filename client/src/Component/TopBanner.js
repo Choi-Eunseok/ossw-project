@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Navbar, Container, NavDropdown, Nav} from 'react-bootstrap'
 import khuimg from '../img/khumeal.png'
 
-function App() {
+function TopBanner() {
   const callApi = async()=>{
     axios.get("/api").then((res)=>{console.log(res.data.test)});
   };
@@ -32,4 +32,4 @@ function App() {
   );
 }
 
-export default App;
+export default TopBanner;
