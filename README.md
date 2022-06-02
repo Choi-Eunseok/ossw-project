@@ -1,3 +1,13 @@
+# How to Install
+```
+npm install && cd client && npm install && cd ../
+```
+
+# How to Start
+```
+npm start
+```
+
 # 학식 관련된 의견 주고 받는 커뮤니티
 > 친구의 부탁으로 인해 현재 제2기숙사와 학생회관의 학식을 보여주는 앱을 개발했습니다.
 > 이와 관련된 반응을 에브리타임 앱에서 보고 있었습니다.
