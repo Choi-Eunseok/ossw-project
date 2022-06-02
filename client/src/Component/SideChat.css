@@ -1,11 +1,72 @@
+*{
+    margin:0%;
+    padding:0%;
+
+    border-color: black;
+    border-width: 1px;
+}
+
 .SideChat {
-    color: yellow;
+    color: black;
     background-color: gray;
     position: absolute;
     z-index: 999;
-    right:100px;
-    top:0px;
+    right:3%;
+    top:0%;
     transition: 0ms;
+
+    width:20%;
+    min-width: 150px;
+    max-width: 200px;
+    height:35%;
+    min-height: 200px;
+    max-height: 300px;
+
+    display: grid;
+    grid-template-rows: 4.3fr 1fr;
+
+    font-size: 90%;
+    
+    border-color: black;
+    border-radius: 5px;
+
+    align-items: center;
+    justify-items: center;
+}
+
+.SideChat .innerChat1 {
+    background-color: white;
+    width: 87%;
+    height: 90%;
+    margin-top: 3%;
+
+    vertical-align: bottom;
+}
+
+.SideChat .innerChat2 {
+    grid-template-rows: 1fr 2fr;
+    height: 100%;
+    width: 100%;
+    
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.SideChat .innerChat2 .innerBtnCover{
+    grid-template-columns: 1fr 1.2fr 1fr;
+    height:30%;
+    padding-left: 0%;
+    padding-right: 0%;
+}
+
+.SideChat .innerChat2 .innerBtnCover .innerBtn{
+    width:33%;
+    height:100%;
+    min-height: 20px;
+    margin-bottom: 4%;
+
+    font-size:70%;
+    overflow: hidden;
 }
 
 .scrollmake{
