@@ -268,8 +268,30 @@ router.get('/api/menuList', async (req, res) => {                               
     newRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
     newRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
     newRequest.send("locgbn=K1&sch_date=&fo_gbn=stu")
+  }
+  catch (err) {
+    res.send(err.message);
+  }
+});
 
-    
+router.get('/api/todayMenu', async (req, res) => {                                                                 // 제2기숙사 학식 메뉴 하루치 불러오기
+  try {
+    let newRequest = new XMLHttpRequest();
+    newRequest.onreadystatechange = () => {
+        if (newRequest.status == 200 && newRequest.readyState == 4) {
+            var dt = new Date();
+            if(dt.getDay() > 0 && dt.getDay() < 6){
+              resJSON = JSON.parse(newRequest.responseText).root[0].WEEKLYMENU[0];
+              const weekMenu = setting(resJSON);
+              const todayMenu = [weekMenu.fo_menu_lun[dt.getDay()-1], weekMenu.fo_menu_eve[dt.getDay()-1]];
+              res.send(todayMenu);
+            }else res.send("weekend");
+            
+        }
+    }
+    newRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
+    newRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+    newRequest.send("locgbn=K1&sch_date=&fo_gbn=stu")
   }
   catch (err) {
     res.send(err.message);
