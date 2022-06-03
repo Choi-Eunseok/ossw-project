@@ -1,48 +1,59 @@
 import './App.css';
 import axios from "axios";
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './SideChat.css'
-
-
+import InnerChat from './InnerChat';
 
 function SideChat() {
-  const callApi = async()=>{
-    axios.get("/api").then((res)=>{console.log(res.data.test)});
-    
-  };
+  const chatContainer = useRef(null);
+  const [list, setList] = useState([]);
 
-  useEffect(()=>{
-    callApi();
-    //addChat();
+  const getWaiting = () => {
+    axios.get("/api/waiting").then((res) => {
+      setList(res.data);
+      setTimeout(() =>{
+        const scroll = chatContainer.current.scrollHeight - chatContainer.current.clientHeight;
+        chatContainer.current.scrollTo(0, scroll);
+      },100);
+    });
+  }
+
+  const postWaiting = (inp) => {
+    axios.post("/api/waiting", {value:inp}).then((res) => {
+      getWaiting();
+    });
+  }
+
+  useEffect(() => {
+    getWaiting();
     scrollChat();
   }, []);
-  
+
   return (
-      <div className='SideChat'>
-        <div className='innerChat1'>
-          
+    <div className='SideChat'>
+      <div ref={chatContainer} className='innerChat1'>
+        {list.map(waiting => {
+          return (
+            <div>
+              <InnerChat value={waiting.value} time={waiting.time}/>
+            </div>
+          )
+        })}
+      </div>
+      <div className='innerChat2'>
+        <div>
+          대기시간
         </div>
-        <div className='innerChat2'>
-          <div>
-            대기시간
-          </div>
-          <div className='innerBtnCover'>
-            <button className='innerBtn' id='under5'>5분 이내</button>
-            <button className='innerBtn' id='5to10'>5분~10분</button>
-            <button className='innerBtn' id='over10'>10분 이상</button>
-          </div>
+        <div className='innerBtnCover'>
+          <button className='innerBtn' id='under5' onClick={()=>postWaiting("5분 이내")}>5분 이내</button>
+          <button className='innerBtn' id='5to10' onClick={()=>postWaiting("5분~10분")}>5분~10분</button>
+          <button className='innerBtn' id='over10' onClick={()=>postWaiting("10분 이상")}>10분 이상</button>
         </div>
       </div>
-  
+    </div>
+
   );
 }
-
-
-
-//  <div className='scrollmake' style={{height:'1200px', width:'100px',backgroundColor:'red' }}>
-//  바보
-//  </div>
-
 
 const scrollChat = () => {
   let scrollY;
@@ -50,12 +61,12 @@ const scrollChat = () => {
   const sideChat = document.getElementsByClassName('SideChat')[0];
 
   scrollY = window.scrollY + document.body.scrollHeight / 5 - 50;
-  sideChat.style.top = scrollY +"px";
+  sideChat.style.top = scrollY + "px";
 
-  const reposition =  ()=>{ // 화면 크기 바뀔때도 이래야함--> 추후수정
-    sideChat.style.transition = '800ms';  
+  const reposition = () => { // 화면 크기 바뀔때도 이래야함--> 추후수정
+    sideChat.style.transition = '800ms';
     scrollY = window.scrollY + document.body.scrollHeight / 5 - 50;
-    sideChat.style.top = scrollY +"px";
+    sideChat.style.top = scrollY + "px";
   }
 
   document.addEventListener('scroll', reposition);
