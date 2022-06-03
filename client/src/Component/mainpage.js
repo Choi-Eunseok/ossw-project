@@ -14,19 +14,21 @@ function MainPage() {
   let today = currentYear+'/'+currentMonth+'/'+currentDate;
   
 
-  const makeTable = (arr_, dom_) => {
-    
-      arr_.forEach((elem)=>{
-        let span_ = document.createElement('div');
-        span_.innerHTML = elem;
-        dom_.appendChild(span_);
-      });
-    
-  };
+
 
   const todayMealTable = async()=>{
     axios.get("/api/todayMenu").then(
       (res) => {
+        const makeTable = (arr_, dom_) => {
+    
+          arr_.forEach((elem)=>{
+            let span_ = document.createElement('div');
+            span_.innerHTML = elem;
+            dom_.appendChild(span_);
+          });
+        
+      };
+
         const index1 = res.data[0].indexOf(':');
         const index2 = res.data[1].indexOf(':');
         let lunchArr = res.data[0].substring(index1+1);
@@ -38,15 +40,13 @@ function MainPage() {
         if(index1 !== -1){
          dinnerArr = dinnerArr.split(',');
         }
-        console.log(lunchArr, dinnerArr);
 
         const lunchDom = document.getElementsByClassName('lunchTable')[0];
         const dinnerDom = document.getElementsByClassName('dinnerTable')[0];
         
         makeTable(lunchArr, lunchDom);
         makeTable(dinnerArr, dinnerDom);
-        setlunch(lunchArr);
-        setdinner(dinnerArr);
+        console.log()
 
 
          
@@ -63,7 +63,7 @@ function MainPage() {
     <div className='mainpage'>
       
       <div>
-        <div>
+        <div className='haksikTitle'>
           {today} 제2기숙사 학식
         </div>
         <div></div>
@@ -74,7 +74,7 @@ function MainPage() {
         </div>
         <div className='dinnerTable'></div>
       </div>
-      <div>
+      <div className='mainpageUnder'>
         <div>메뉴에 대한 이야기</div>
         <div></div>
       </div>
