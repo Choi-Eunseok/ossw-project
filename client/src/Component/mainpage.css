@@ -1,0 +1,29 @@
+.mainpage {
+    display:grid;
+    grid-template-rows: 1.3fr 1fr;
+    width: 80%;
+    height: 90%;
+    padding:5%;
+
+}   
+
+.mainpage :nth-child(1) {
+    display: grid;
+    grid-template-rows: 1fr 10fr;
+}
+
+.mainpage :nth-child(2) {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.whatAboutMeal {
+    display: grid;
+    grid-template-rows: 1fr 8fr;
+    grid-template-columns: 100%;
+}
+
+
+
+.mainpageInner {
+}

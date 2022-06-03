@@ -11,8 +11,9 @@
     background-color: gray;
     position: absolute;
     z-index: 999;
-    right:3%;
-    top:0%;
+    top:20%;
+    right:4%;
+    
     transition: 0ms;
 
     width:20%;
@@ -69,8 +70,3 @@
     overflow: hidden;
 }
 
-.scrollmake{
-    height:1200px;
-    width:100px;
-    background-color: red;
-}

@@ -18,7 +18,6 @@ function SideChat() {
   }, []);
   
   return (
-    <div>
       <div className='SideChat'>
         <div className='innerChat1'>
           
@@ -34,13 +33,13 @@ function SideChat() {
           </div>
         </div>
       </div>
-
-    </div>
+  
   );
 }
 
 
-//  <div className='scrollmake'>
+
+//  <div className='scrollmake' style={{height:'1200px', width:'100px',backgroundColor:'red' }}>
 //  바보
 //  </div>
 
