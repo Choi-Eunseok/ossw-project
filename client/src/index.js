@@ -14,7 +14,7 @@ root.render(
       <TopBanner />
       
       <SideChat />
-      <div className='bodyContent' style={{width:'100%', height:'100%'}}>
+      <div className='bodyContent' style={{width:'100%', height:'80%'}}>
         <MainPage />
       </div>
       
