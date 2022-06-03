@@ -1,29 +1,33 @@
-.mainpage {
-    display:grid;
-    grid-template-rows: 1.3fr 1fr;
-    width: 80%;
+.mainpage{
     height: 90%;
-    padding:5%;
+    width: 80%;
 
-}   
+    display:grid;
+    grid-template-rows: 1.4fr 1fr;
 
-.mainpage :nth-child(1) {
-    display: grid;
-    grid-template-rows: 1fr 10fr;
+
 }
 
-.mainpage :nth-child(2) {
+.mainpage :nth-child(1):not(.mainpage :nth-child(1) :nth-child(1)){
     display:grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 8% 16% 74%;
+
 }
 
-.whatAboutMeal {
-    display: grid;
-    grid-template-rows: 1fr 8fr;
-    grid-template-columns: 100%;
+.mainpage :nth-child(1) :nth-child(1){
+    padding-left: 10%;
+}
+.mainpage :nth-child(1) :nth-child(3),
+.mainpage :nth-child(1) :nth-child(4),
+.mainpage :nth-child(1) :nth-child(5),
+.mainpage :nth-child(1) :nth-child(6){
+    text-align: center;
+    padding-top: 2%;
 }
 
-
-
-.mainpageInner {
+.lunchTable, .dinnerTable{
+    display:flex;
+    flex-direction: column;
+    
 }
