@@ -10,6 +10,7 @@ function SideChat() {
 
   const getWaiting = () => {
     axios.get("/api/waiting").then((res) => {
+      var newList = [];
       setList(res.data);
       setTimeout(() =>{
         const scroll = chatContainer.current.scrollHeight - chatContainer.current.clientHeight;
@@ -32,11 +33,9 @@ function SideChat() {
   return (
     <div className='SideChat'>
       <div ref={chatContainer} className='innerChat1'>
-        {list.map(waiting => {
+        {list.map((item, index) => {
           return (
-            <div>
-              <InnerChat value={waiting.value} time={waiting.time}/>
-            </div>
+              <InnerChat key={index} value={item.value} time={item.time}/>
           )
         })}
       </div>

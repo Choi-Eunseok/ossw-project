@@ -7,13 +7,9 @@ let today = '~'+'월'+'*'+'일'; // 날짜 받아오기
 
 
 function MainPage() {
-  const callApi = async()=>{
-    axios.get("/api").then((res)=>{console.log(res.data.test)});
-    
-  };
 
   useEffect(()=>{
-    callApi();
+    
   }, []);
   
   return (
