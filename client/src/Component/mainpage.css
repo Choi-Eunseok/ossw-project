@@ -31,3 +31,11 @@
     flex-direction: column;
     
 }
+
+.mainpage :nth-child(2){
+    display: grid;
+    grid-template-rows: 8% 90%;
+    padding-left: 2%;
+}
+
+

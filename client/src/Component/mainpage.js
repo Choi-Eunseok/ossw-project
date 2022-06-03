@@ -5,7 +5,6 @@ import './mainpage.css'
 
 
 
-
 function MainPage() {
   const [lunch, setlunch] = useState("");
   const [dinner, setdinner] = useState("");
@@ -13,16 +12,16 @@ function MainPage() {
   let currentMonth = new Date().getMonth();
   let currentDate = new Date().getDate();
   let today = currentYear+'/'+currentMonth+'/'+currentDate;
+  
 
   const makeTable = (arr_, dom_) => {
-
-    arr_.forEach((elem)=>{
-      let span_ = document.createElement('div');
-      span_.innerHTML = elem;
-      dom_.appendChild(span_);
-      console.log("하이1");
-    });
-
+    
+      arr_.forEach((elem)=>{
+        let span_ = document.createElement('div');
+        span_.innerHTML = elem;
+        dom_.appendChild(span_);
+      });
+    
   };
 
   const todayMealTable = async()=>{
@@ -48,6 +47,8 @@ function MainPage() {
         makeTable(dinnerArr, dinnerDom);
         setlunch(lunchArr);
         setdinner(dinnerArr);
+
+
          
       }
     )
@@ -56,8 +57,6 @@ function MainPage() {
 
   useEffect(()=>{
     todayMealTable();
-
-
   }, []);
   
   return (
@@ -76,7 +75,8 @@ function MainPage() {
         <div className='dinnerTable'></div>
       </div>
       <div>
-
+        <div>메뉴에 대한 이야기</div>
+        <div></div>
       </div>
     </div>
   );

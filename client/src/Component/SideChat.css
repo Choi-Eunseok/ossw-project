@@ -40,6 +40,7 @@
     width: 87%;
     height: 90%;
     margin-top: 3%;
+    overflow: scroll;
 
     vertical-align: bottom;
 }

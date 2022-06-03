@@ -1,7 +1,8 @@
 {
   "scripts": {
     "server": "cd server && nodemon server",
-    "client": "cd client && set PORT=8080 && npm start --port",
+
+    "client": "cd client && set PORT=8080 && npm start",
     "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "dependencies": {
