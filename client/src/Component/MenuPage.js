@@ -1,7 +1,19 @@
 import './App.css';
 import axios from "axios";
+import { useEffect } from 'react';
 
 function MenuPage() {
+
+  const getMenuList = () => {
+    axios.get("/api/menuList").then((res) => {
+      console.log(res.data);
+    });
+  }
+
+  useEffect(()=>{
+    getMenuList();
+  }, []);
+
   return (
     <div>
       메뉴 페이지

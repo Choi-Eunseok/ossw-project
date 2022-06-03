@@ -15,23 +15,21 @@ import {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <div className='Screen' style={{ borderColor: 'blue', width: '100vw', height: '100vh' }}>
-      <TopBanner />
+  <div className='Screen' style={{ borderColor: 'blue', width: '100vw', height: '100vh' }}>
+    <TopBanner />
 
-      <SideChat />
-      <div className='bodyContent' style={{ width: '100%', height: '100%' }}>
-        <Router>
-          <Routes>
-            <Route path="/" element={<MainPage/>}/>
-            <Route path="/menu" element={<MenuPage/>}/>
-          </Routes>
-        </Router>
-      </div>
-
-
+    <SideChat />
+    <div className='bodyContent' style={{ width: '100%', height: '100%' }}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/menu" element={<MenuPage />} />
+        </Routes>
+      </Router>
     </div>
-  </React.StrictMode>
+
+
+  </div>
 );
 
 reportWebVitals();
