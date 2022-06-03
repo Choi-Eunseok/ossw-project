@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const XMLHttpRequest = require('xhr2');
 
 mongoose.connect('mongodb+srv://choieunseok:uA3mhjPcB3DwsuuD@cluster0.2gsua4u.mongodb.net/?retryWrites=true&w=majority');
 
@@ -22,6 +23,12 @@ const post = mongoose.Schema({
   password: 'string'
 });
 const postModel = mongoose.model('post', post);
+
+const waiting = mongoose.Schema({
+  date: 'string',
+  waiting: []
+});
+const waitingModel = mongoose.model('waiting', waiting);
 
 // router.get('/api', (req, res) => {
 //   res.send({ test: "hi" });
@@ -172,8 +179,102 @@ router.delete('/api/delete/:id', async (req, res) => {                          
   }
 });
 
-// 대기시간 관련 디비 수정 부분 추가 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-// 학식 일주일치 불러오는 부분 추가 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+router.get('/api/waiting', async (req, res) => {                                                                 // 오늘의 대기시간 목록 가져오기
+  try {
+    const today = getCurrentDate();
+    var waitingList = await waitingModel.findOne({ date: today });
+    if (waitingList == null) waitingList = []
+    else waitingList = waitingList. waiting;
+    res.send(waitingList);
+  }
+  catch (err) {
+    res.send(err.message);
+  }
+});
+
+router.post('/api/waiting', async (req, res) => {                                                                 // 오늘의 대기시간 목록 추가
+  try {
+    const today = getCurrentDate();
+    var waitingList = await waitingModel.findOne({ date: today });
+
+    const date = new Date();
+    const time = date.getHours() + ":" + date.getMinutes();
+    const newWaiting = {value: req.body.value, time: time};
+
+    if (waitingList == null) await waitingModel({date: today, waiting: [newWaiting]}).save();
+    else{
+      waitingList.waiting.push(newWaiting);
+      await waitingModel.findOneAndUpdate({ date: today }, {waiting: waitingList.waiting});
+    }
+
+    var waitingListResult = await waitingModel.findOne({ date: today });
+    res.send(waitingListResult);
+  }
+  catch (err) {
+    res.send(err.message);
+  }
+});
+
+
+function setting(resultJson){
+  var result = {}
+  result.fo_date = [resultJson.fo_date1, resultJson.fo_date2, resultJson.fo_date3, resultJson.fo_date4, resultJson.fo_date5];
+  result.fo_menu_lun = [resultJson.fo_menu_lun1, resultJson.fo_menu_lun2, resultJson.fo_menu_lun3, resultJson.fo_menu_lun4, resultJson.fo_menu_lun5];
+  result.fo_menu_eve = [resultJson.fo_menu_eve1, resultJson.fo_menu_eve2, resultJson.fo_menu_eve3, resultJson.fo_menu_eve4, resultJson.fo_menu_eve5];
+  return result;
+}
+
+router.get('/api/menuList', async (req, res) => {                                                                 // 제2기숙사 학식 메뉴 일주일치 불러오기
+  try {
+
+    let newRequest = new XMLHttpRequest();
+    newRequest.onreadystatechange = () => {
+        if (newRequest.status == 200 && newRequest.readyState == 4) {
+            var dt = new Date();
+            if (dt.getDay() == 0 || dt.getDay() == 6) {
+                resJSON0 = JSON.parse(newRequest.responseText).root[0].LASTNEXT[0]
+                resJSON1 = JSON.parse(newRequest.responseText).root[0].LASTNEXT[1]
+                if (resJSON0.go === "next_mon") {
+                    let nextRequest = new XMLHttpRequest();
+                    nextRequest.onreadystatechange = () => {
+                        if (nextRequest.status == 200 && nextRequest.readyState == 4) {
+                            newResJSON = JSON.parse(nextRequest.responseText).root[0].WEEKLYMENU[0]
+                            res.send(setting(newResJSON));
+                        }
+                    }
+                    nextRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
+                    nextRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+                    nextRequest.send("locgbn=K1&sch_date=" + resJSON0.mon_date + "&fo_gbn=stu")
+                } else if (resJSON1.go === "next_mon") {
+                    let nextRequest = new XMLHttpRequest();
+                    nextRequest.onreadystatechange = () => {
+                        if (nextRequest.status == 200 && nextRequest.readyState == 4) {
+                            newResJSON = JSON.parse(nextRequest.responseText).root[0].WEEKLYMENU[0]
+                            res.send(setting(newResJSON));
+                        }
+                    }
+                    nextRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
+                    nextRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+                    nextRequest.send("locgbn=K1&sch_date=" + resJSON1.mon_date + "&fo_gbn=stu")
+                }
+            }
+            else {
+                resJSON = JSON.parse(newRequest.responseText).root[0].WEEKLYMENU[0]
+                res.send(setting(resJSON));
+            }
+        }
+    }
+    newRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
+    newRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+    newRequest.send("locgbn=K1&sch_date=&fo_gbn=stu")
+
+    
+  }
+  catch (err) {
+    res.send(err.message);
+  }
+});
 
 // router.get('/api/testSave', async (req, res) => {
 //   var isFirst = false;
