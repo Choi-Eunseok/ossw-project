@@ -185,8 +185,22 @@ router.get('/api/waiting', async (req, res) => {                                
     const today = getCurrentDate();
     var waitingList = await waitingModel.findOne({ date: today });
     if (waitingList == null) waitingList = []
-    else waitingList = waitingList. waiting;
-    res.send(waitingList);
+    else waitingList = waitingList.waiting;
+
+    const date = new Date();
+    var hour = date.getHours();
+    hour = hour < 10 ? '0' + hour.toString() : hour.toString();
+    var minute = date.getMinutes();
+    minute = minute < 10 ? '0' + minute.toString() : minute.toString();
+    const time = Number(hour + minute);
+
+    var result = [];
+    for(const waiting of waitingList){
+      if(time - Number(waiting.time.replace(':','')) <= 100){
+        result.push(waiting)
+      }
+    }
+    res.send(result);
   }
   catch (err) {
     res.send(err.message);
@@ -199,7 +213,11 @@ router.post('/api/waiting', async (req, res) => {                               
     var waitingList = await waitingModel.findOne({ date: today });
 
     const date = new Date();
-    const time = date.getHours() + ":" + date.getMinutes();
+    var hour = date.getHours();
+    hour = hour < 10 ? '0' + hour.toString() : hour.toString();
+    var minute = date.getMinutes();
+    minute = minute < 10 ? '0' + minute.toString() : minute.toString();
+    const time = hour + ":" + minute;
     const newWaiting = {value: req.body.value, time: time};
 
     if (waitingList == null) await waitingModel({date: today, waiting: [newWaiting]}).save();
