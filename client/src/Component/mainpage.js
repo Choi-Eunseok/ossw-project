@@ -6,16 +6,12 @@ import './MainPage.css'
 
 
 function MainPage() {
-  const [lunch, setlunch] = useState("");
-  const [dinner, setdinner] = useState("");
+  const [list, setList] = useState([]);
   let currentYear = new Date().getFullYear();
   let currentMonth = new Date().getMonth();
   let currentDate = new Date().getDate();
   let today = currentYear+'/'+currentMonth+'/'+currentDate;
   
-
-
-
   const todayMealTable = async()=>{
     axios.get("/api/todayMenu").then(
       (res) => {
@@ -48,8 +44,7 @@ function MainPage() {
         makeTable(dinnerArr, dinnerDom);         
       }
     )
-  }
-
+  };
 
   useEffect(()=>{
     todayMealTable();
