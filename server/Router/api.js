@@ -80,7 +80,7 @@ router.get('/api/getList/:date', async (req, res) => {                          
   }
 });
 
-router.get('/api/get', async (req, res) => {                                                                     // 특정 id(여러개)의 게시물 내용 요약 불러오기
+router.post('/api/get', async (req, res) => {                                                                     // 특정 id(여러개)의 게시물 내용 요약 불러오기
   try {
     const idArray = req.body.idArray;
     var resultArray = [];

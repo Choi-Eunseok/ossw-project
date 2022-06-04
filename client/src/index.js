@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //컴포넌트
 import TopBanner from './Component/TopBanner'; // 상단 메뉴
 import SideChat from './Component/SideChat'; // 측면 대기시간 채팅
-import MainPage from './Component/MainPage'; // 초기화면
+import MainPage from './Component/mainpage'; // 초기화면
 import MenuPage from './Component/MenuPage'; // 학식 메뉴 화면
 
 import Writing from './Component/Writing'; // 글 작성 화면
