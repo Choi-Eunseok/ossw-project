@@ -63,7 +63,7 @@ const scrollChat = () => {
   sideChat.style.top = scrollY + "px";
 
   const reposition = () => { // 화면 크기 바뀔때도 이래야함--> 추후수정
-    sideChat.style.transition = '800ms';
+    sideChat.style.transition = '500ms';
     scrollY = window.scrollY + document.body.scrollHeight / 5 - 50;
     sideChat.style.top = scrollY + "px";
   }

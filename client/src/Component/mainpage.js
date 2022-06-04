@@ -3,14 +3,22 @@ import axios from "axios";
 import { useEffect, useState } from 'react';
 import './MainPage.css'
 
+function InnerContent(props){
+  return (
+    <div>
+      <div style={{fontSize:'15px', height: '10px', width:'100%', backgroundColor:'#FDF5E6'}}>{props.title} {props.content}</div>
+    </div>
+  );
+}
 
 
 function MainPage() {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState([{title: '하이', content: '바보'},{title: '하이2', content: '바보2'},{title: '하이3', content: '바보3'}]);
   let currentYear = new Date().getFullYear();
   let currentMonth = new Date().getMonth();
   let currentDate = new Date().getDate();
   let today = currentYear+'/'+currentMonth+'/'+currentDate;
+  
   
   const todayMealTable = async()=>{
     axios.get("/api/todayMenu").then(
@@ -46,8 +54,16 @@ function MainPage() {
     )
   };
 
+  const todayInnerContent = async()=>{ // 게시글 목록 가져오기
+    axios.get('/api/get').then((res) => {
+      console.log(res.data);
+      }
+    );
+  }
+
   useEffect(()=>{
     todayMealTable();
+    todayInnerContent();
   }, []);
   
   return (
@@ -68,6 +84,11 @@ function MainPage() {
       <div className='mainpageUnder'>
         <div>메뉴에 대한 이야기</div>
         <div>
+          {list.map((item,index)=>{
+            return(
+              <InnerContent key={index} title={item.title} content={item.content}/>
+            )
+          })}
         </div>
       </div>
     </div>
