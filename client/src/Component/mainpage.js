@@ -1,7 +1,7 @@
 import './App.css';
 import axios from "axios";
 import { useEffect, useState } from 'react';
-import './mainpage.css'
+import './MainPage.css'
 
 
 
@@ -45,11 +45,7 @@ function MainPage() {
         const dinnerDom = document.getElementsByClassName('dinnerTable')[0];
         
         makeTable(lunchArr, lunchDom);
-        makeTable(dinnerArr, dinnerDom);
-        console.log()
-
-
-         
+        makeTable(dinnerArr, dinnerDom);         
       }
     )
   }
@@ -76,7 +72,8 @@ function MainPage() {
       </div>
       <div className='mainpageUnder'>
         <div>메뉴에 대한 이야기</div>
-        <div></div>
+        <div>
+        </div>
       </div>
     </div>
   );

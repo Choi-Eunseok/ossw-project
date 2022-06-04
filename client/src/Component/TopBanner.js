@@ -14,8 +14,8 @@ function TopBanner() {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
                 <Nav.Link href="/menu"><p style={{color:'white'}}>메뉴</p></Nav.Link>
-                <Nav.Link href="/"><p style={{color:'white'}}>메뉴에 대한 이야기</p></Nav.Link>
-                <Nav.Link href="#link"><p style={{color:'white'}}>글 작성</p></Nav.Link>
+                <Nav.Link href="/mealtalk"><p style={{color:'white'}}>메뉴에 대한 이야기</p></Nav.Link>
+                <Nav.Link href="/writing"><p style={{color:'white'}}>글 작성</p></Nav.Link>
                 </Nav>
             </Navbar.Collapse>
             </Container>
