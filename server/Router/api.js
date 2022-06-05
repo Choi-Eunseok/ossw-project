@@ -18,6 +18,7 @@ const dayPostList = mongoose.Schema({
 const dayPostListModel = mongoose.model('dayPostList', dayPostList);
 const post = mongoose.Schema({
   date: 'string',
+  time: 'string',
   title: 'string',
   content: 'string',
   password: 'string'
@@ -49,11 +50,22 @@ function getCurrentDate(originDate) {
   return year + '-' + month + '-' + day;
 }
 
+function getCurrentTime() {
+  var date = new Date();
+  var hour = date.getHours();
+  hour = hour < 10 ? '0' + hour.toString() : hour.toString();
+
+  var minute = date.getMinutes();
+  minute = minute < 10 ? '0' + minute.toString() : minute.toString();
+
+  return hour + ":" + minute;
+}
+
 function arrayEquals(a, b) {
   return Array.isArray(a) &&
-      Array.isArray(b) &&
-      a.length === b.length &&
-      a.every((val, index) => val === b[index]);
+    Array.isArray(b) &&
+    a.length === b.length &&
+    a.every((val, index) => val === b[index]);
 }
 
 router.get('/api/getList', async (req, res) => {                                                                 // 오늘 게시물들의 아이디 표시
@@ -80,7 +92,7 @@ router.get('/api/getList/:date', async (req, res) => {                          
   }
 });
 
-router.get('/api/get', async (req, res) => {                                                                     // 특정 id(여러개)의 게시물 내용 요약 불러오기
+router.post('/api/get', async (req, res) => {                                                                     // 특정 id(여러개)의 게시물 내용 요약 불러오기
   try {
     const idArray = req.body.idArray;
     var resultArray = [];
@@ -88,10 +100,12 @@ router.get('/api/get', async (req, res) => {                                    
       const onePost = await postModel.findById(id);
       var tempJSON = {};
       tempJSON.id = onePost.id;
+      tempJSON.time = onePost.time;
       tempJSON.title = onePost.title;
       tempJSON.content = onePost.content;
-      tempJSON.content = tempJSON.content.replace(/(?:\r\n|\r|\n)/g, '');
+      tempJSON.content = tempJSON.content.replace(/(?:\r\n|\r|\n| )/g, '');
       const sliceLength = 10;
+      if (tempJSON.title.length > sliceLength) tempJSON.title = tempJSON.title.slice(0, sliceLength) + "...";
       if (tempJSON.content.length > sliceLength) tempJSON.content = tempJSON.content.slice(0, sliceLength) + "...";
       resultArray.push(tempJSON);
     }
@@ -105,7 +119,7 @@ router.get('/api/get', async (req, res) => {                                    
 router.get('/api/get/:id', async (req, res) => {                                                                 // 특정 id의 게시물 불러오기
   try {
     const currentPost = await postModel.findById(req.params.id);
-    res.send({ title: currentPost.title, content: currentPost.content });
+    res.send({ date: currentPost.date, time: currentPost.time, title: currentPost.title, content: currentPost.content });
   }
   catch (err) {
     res.send(err.message);
@@ -127,6 +141,7 @@ router.post('/api/postSave', async (req, res) => {                              
   try {
     var isFirst = false;
     const today = getCurrentDate();
+    const time = getCurrentTime();
 
     var testDayPostList = await dayPostListModel.findOne({ date: today });
     if (testDayPostList == null) {
@@ -134,7 +149,7 @@ router.post('/api/postSave', async (req, res) => {                              
       isFirst = true;
     }
     var postListArr = testDayPostList.idArray;
-    var newPost = new postModel({ date: today, title: req.body.title, content: req.body.content, password: req.body.password });
+    var newPost = new postModel({ date: today, time:time, title: req.body.title, content: req.body.content, password: req.body.password });
     var newPostData = await newPost.save();
     postListArr.push(newPostData._id.toString());
 
@@ -166,9 +181,9 @@ router.delete('/api/delete/:id', async (req, res) => {                          
     const id = req.params.id;
     const list = await dayPostListModel.find();
     for (const dayList of list) {
-      var newArray = dayList.idArray.filter((data)=>{return data != id;})
-      if(!arrayEquals(dayList.idArray, newArray)){
-        await dayPostListModel.findByIdAndUpdate(dayList._id.toString(), {idArray: newArray});
+      var newArray = dayList.idArray.filter((data) => { return data != id; })
+      if (!arrayEquals(dayList.idArray, newArray)) {
+        await dayPostListModel.findByIdAndUpdate(dayList._id.toString(), { idArray: newArray });
       }
     }
     await postModel.findByIdAndDelete(id);
@@ -195,8 +210,8 @@ router.get('/api/waiting', async (req, res) => {                                
     const time = Number(hour + minute);
 
     var result = [];
-    for(const waiting of waitingList){
-      if(time - Number(waiting.time.replace(':','')) <= 100){
+    for (const waiting of waitingList) {
+      if (time - Number(waiting.time.replace(':', '')) <= 100) {
         result.push(waiting)
       }
     }
@@ -212,18 +227,13 @@ router.post('/api/waiting', async (req, res) => {                               
     const today = getCurrentDate();
     var waitingList = await waitingModel.findOne({ date: today });
 
-    const date = new Date();
-    var hour = date.getHours();
-    hour = hour < 10 ? '0' + hour.toString() : hour.toString();
-    var minute = date.getMinutes();
-    minute = minute < 10 ? '0' + minute.toString() : minute.toString();
-    const time = hour + ":" + minute;
-    const newWaiting = {value: req.body.value, time: time};
+    const time = getCurrentTime();
+    const newWaiting = { value: req.body.value, time: time };
 
-    if (waitingList == null) await waitingModel({date: today, waiting: [newWaiting]}).save();
-    else{
+    if (waitingList == null) await waitingModel({ date: today, waiting: [newWaiting] }).save();
+    else {
       waitingList.waiting.push(newWaiting);
-      await waitingModel.findOneAndUpdate({ date: today }, {waiting: waitingList.waiting});
+      await waitingModel.findOneAndUpdate({ date: today }, { waiting: waitingList.waiting });
     }
 
     var waitingListResult = await waitingModel.findOne({ date: today });
@@ -235,7 +245,8 @@ router.post('/api/waiting', async (req, res) => {                               
 });
 
 
-function setting(resultJson){
+
+function setting(resultJson) {
   var result = {}
   result.fo_date = [resultJson.fo_date1, resultJson.fo_date2, resultJson.fo_date3, resultJson.fo_date4, resultJson.fo_date5];
   result.fo_menu_lun = [resultJson.fo_menu_lun1, resultJson.fo_menu_lun2, resultJson.fo_menu_lun3, resultJson.fo_menu_lun4, resultJson.fo_menu_lun5];
@@ -248,40 +259,40 @@ router.get('/api/menuList', async (req, res) => {                               
 
     let newRequest = new XMLHttpRequest();
     newRequest.onreadystatechange = () => {
-        if (newRequest.status == 200 && newRequest.readyState == 4) {
-            var dt = new Date();
-            if (dt.getDay() == 0 || dt.getDay() == 6) {
-                resJSON0 = JSON.parse(newRequest.responseText).root[0].LASTNEXT[0]
-                resJSON1 = JSON.parse(newRequest.responseText).root[0].LASTNEXT[1]
-                if (resJSON0.go === "next_mon") {
-                    let nextRequest = new XMLHttpRequest();
-                    nextRequest.onreadystatechange = () => {
-                        if (nextRequest.status == 200 && nextRequest.readyState == 4) {
-                            newResJSON = JSON.parse(nextRequest.responseText).root[0].WEEKLYMENU[0]
-                            res.send(setting(newResJSON));
-                        }
-                    }
-                    nextRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
-                    nextRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-                    nextRequest.send("locgbn=K1&sch_date=" + resJSON0.mon_date + "&fo_gbn=stu")
-                } else if (resJSON1.go === "next_mon") {
-                    let nextRequest = new XMLHttpRequest();
-                    nextRequest.onreadystatechange = () => {
-                        if (nextRequest.status == 200 && nextRequest.readyState == 4) {
-                            newResJSON = JSON.parse(nextRequest.responseText).root[0].WEEKLYMENU[0]
-                            res.send(setting(newResJSON));
-                        }
-                    }
-                    nextRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
-                    nextRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-                    nextRequest.send("locgbn=K1&sch_date=" + resJSON1.mon_date + "&fo_gbn=stu")
-                }
+      if (newRequest.status == 200 && newRequest.readyState == 4) {
+        var dt = new Date();
+        if (dt.getDay() == 0 || dt.getDay() == 6) {
+          resJSON0 = JSON.parse(newRequest.responseText).root[0].LASTNEXT[0]
+          resJSON1 = JSON.parse(newRequest.responseText).root[0].LASTNEXT[1]
+          if (resJSON0.go === "next_mon") {
+            let nextRequest = new XMLHttpRequest();
+            nextRequest.onreadystatechange = () => {
+              if (nextRequest.status == 200 && nextRequest.readyState == 4) {
+                newResJSON = JSON.parse(nextRequest.responseText).root[0].WEEKLYMENU[0]
+                res.send(setting(newResJSON));
+              }
             }
-            else {
-                resJSON = JSON.parse(newRequest.responseText).root[0].WEEKLYMENU[0]
-                res.send(setting(resJSON));
+            nextRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
+            nextRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+            nextRequest.send("locgbn=K1&sch_date=" + resJSON0.mon_date + "&fo_gbn=stu")
+          } else if (resJSON1.go === "next_mon") {
+            let nextRequest = new XMLHttpRequest();
+            nextRequest.onreadystatechange = () => {
+              if (nextRequest.status == 200 && nextRequest.readyState == 4) {
+                newResJSON = JSON.parse(nextRequest.responseText).root[0].WEEKLYMENU[0]
+                res.send(setting(newResJSON));
+              }
             }
+            nextRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
+            nextRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+            nextRequest.send("locgbn=K1&sch_date=" + resJSON1.mon_date + "&fo_gbn=stu")
+          }
         }
+        else {
+          resJSON = JSON.parse(newRequest.responseText).root[0].WEEKLYMENU[0]
+          res.send(setting(resJSON));
+        }
+      }
     }
     newRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
     newRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
@@ -296,16 +307,16 @@ router.get('/api/todayMenu', async (req, res) => {                              
   try {
     let newRequest = new XMLHttpRequest();
     newRequest.onreadystatechange = () => {
-        if (newRequest.status == 200 && newRequest.readyState == 4) {
-            var dt = new Date();
-            if(dt.getDay() > 0 && dt.getDay() < 6){
-              resJSON = JSON.parse(newRequest.responseText).root[0].WEEKLYMENU[0];
-              const weekMenu = setting(resJSON);
-              const todayMenu = [weekMenu.fo_menu_lun[dt.getDay()-1], weekMenu.fo_menu_eve[dt.getDay()-1]];
-              res.send(todayMenu);
-            }else res.send("weekend");
-            
-        }
+      if (newRequest.status == 200 && newRequest.readyState == 4) {
+        var dt = new Date();
+        if (dt.getDay() > 0 && dt.getDay() < 6) {
+          resJSON = JSON.parse(newRequest.responseText).root[0].WEEKLYMENU[0];
+          const weekMenu = setting(resJSON);
+          const todayMenu = [weekMenu.fo_menu_lun[dt.getDay() - 1], weekMenu.fo_menu_eve[dt.getDay() - 1]];
+          res.send(todayMenu);
+        } else res.send("weekend");
+
+      }
     }
     newRequest.open('POST', 'https://dorm2.khu.ac.kr/food/getWeeklyMenu.kmc')
     newRequest.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
