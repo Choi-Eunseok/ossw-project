@@ -35,6 +35,25 @@
 }
 .contentOuter :nth-child(3){ /*날짜*/
     text-align: right;
-    
+    display:grid;
+    grid-template-columns: 30% 12% 12%;
+    grid-template-rows: 100%;
+    justify-content: right;
     margin-top: 0px;
+    padding-right: 0%;
+}
+.contentOuter :nth-child(3) > *{ /*날짜*/
+    display: block;
+    text-align: center;
+    width: 90%;
+    margin: 0px;
+    font-size: 15px;
+    background-color: white;
+    margin: inherit 10%;
+}
+.contentOuter :nth-child(3) > p{
+    background-color: ivory;
+    text-align: right;
+    border-width: 0px;
+    margin-right: 0px;
 }

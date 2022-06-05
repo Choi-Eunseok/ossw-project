@@ -7,7 +7,7 @@ import './MainPage.css'
 function InnerContent(props) {
 
   return (
-    <div className='outer' value={props.id} onMouseUp={() => { window.location.href = `/showcontent/${props.id}`; }}>
+    <div className='outer' style={{cursor:'pointer'}} value={props.id} onMouseUp={() => { window.location.href = `/showcontent/${props.id}`; }}>
       <div className='inner'>{props.title}</div>
       <div className='inner'>{props.content}</div>
       <div className='inner'>{props.time}</div>
@@ -46,15 +46,19 @@ function MainPage() {
           const index1 = res.data[0].indexOf(':');
           const index2 = res.data[1].indexOf(':');
           let lunchArr = res.data[0].substring(index1 + 1);
-          console.log(lunchArr)
           let dinnerArr = res.data[1].substring(index2 + 1);
 
           if (index1 !== -1) {
             lunchArr = lunchArr.split(',');
+          } else {
+            lunchArr = [lunchArr];
           }
-          if (index1 !== -1) {
+          if (index2 !== -1) {
             dinnerArr = dinnerArr.split(',');
+          } else {
+            dinnerArr = [dinnerArr];
           }
+          console.log(lunchArr, dinnerArr);
 
           makeTable(lunchArr, lunchDom);
           makeTable(dinnerArr, dinnerDom);
@@ -73,7 +77,7 @@ function MainPage() {
     var idArray = [];
     for(var id of arr) idArray.push(id);
     axios.post('/api/get',{idArray:idArray}).then((res)=>{
-      const reverseArr = res.data.reverse().slice(0,8); // 8개만 띄우기
+      const reverseArr = res.data.reverse().slice(0,6); // 8개만 띄우기
       setList(reverseArr);
       console.log(reverseArr);
     })
@@ -99,7 +103,7 @@ function MainPage() {
         <div className='dinnerTable'></div>
       </div>
       <div className='mainpageUnder'>
-        <div>메뉴에 대한 이야기</div>
+        <div style={{paddingLeft:'1%'}}>메뉴에 대한 이야기</div>
         <div className='contentCover'>
           {list.map((item, index) => {
             return (

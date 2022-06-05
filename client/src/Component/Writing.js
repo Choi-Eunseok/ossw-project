@@ -5,14 +5,16 @@ import './Writing.css'
 
 function Writing() {
 
-  const postContent = ()=>{
+  const postContent = async()=>{
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value; 
+
+    const password = await prompt('비밀번호를 입력하세요');
 
     let postContent = {
       "title": title,
       "content": content,
-      "password": '1234',
+      "password": password,
     };
 
     console.log(postContent);

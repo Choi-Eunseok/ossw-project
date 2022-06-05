@@ -6,7 +6,7 @@ import './CommuPage.css'
 function InnerContent(props) {
 
   return (
-    <div className='outer' value={props.id} onMouseUp={() => { window.location.href = `/showcontent/${props.id}`; }}>
+    <div className='outer' style={{cursor:'pointer'}} value={props.id} onMouseUp={() => { window.location.href = `/showcontent/${props.id}`; }}>
       <div className='inner'>{props.title}</div>
       <div className='inner'>{props.content}</div>
       <div className='inner'>{props.time}</div>

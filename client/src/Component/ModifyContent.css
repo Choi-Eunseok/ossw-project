@@ -1,0 +1,55 @@
+.writing{
+    height: 90%;
+    width: 90%;
+    max-width: 1024px;
+
+    display:grid;
+    grid-template-rows: 15% 70% 10% ;
+
+    margin: 2% 2%;
+
+    background-color: #FDF5E6;
+
+}
+
+.writing :nth-child(1) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.writing :nth-child(2) {
+    display: flex;
+    justify-content: center;
+    align-items:flex-start;
+    padding-top:3%;
+}
+.writing :nth-child(1) input{
+    padding: 2%;
+    width:95%;
+    height:87%;
+
+    font-size: 30px;
+}
+.writing :nth-child(2) textarea {
+    padding: 2%;
+    width:95%;
+    height:95%;
+    resize: none;
+    font-size: 20px;
+}
+
+.writing :nth-child(1) input::placeholder{
+    font-size:40px;
+}
+
+.writing :nth-child(3){
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+}
+.writing :nth-child(3) button {
+    height: 70%;
+    width: 15%;
+    margin: 3%;
+    max-width: 250px;
+}
