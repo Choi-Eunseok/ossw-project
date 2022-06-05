@@ -1,0 +1,40 @@
+.contentOuter{
+    height: 90%;
+    width: 90%;
+    max-width: 1024px;
+
+    display:grid;
+    grid-template-rows: 15% 70% 10% ;
+    grid-template-columns: 100%;
+    margin: 2% 2%;
+    padding: 2% 1%;
+    background-color: #FDF5E6;
+    place-items: center;
+}
+
+
+.contentOuter :nth-child(1),
+.contentOuter :nth-child(2),
+.contentOuter :nth-child(3){
+    display:block;
+    background-color: ivory;
+    width:95%;
+    height: 95%;
+    border: 1px solid black;
+    padding: 1% 5%;
+}
+.contentOuter :nth-child(1){ /*제목*/
+    justify-content:left;
+    font-size:40px;
+
+}
+.contentOuter :nth-child(2){ /*본문*/
+    justify-content:left;
+    font-size:20px;
+    margin-bottom: 0px;
+}
+.contentOuter :nth-child(3){ /*날짜*/
+    text-align: right;
+    
+    margin-top: 0px;
+}

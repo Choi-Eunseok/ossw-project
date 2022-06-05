@@ -3,16 +3,17 @@ import axios from "axios";
 import { useEffect, useState } from 'react';
 import './MainPage.css'
 
+
 function InnerContent(props) {
+
   return (
-    <div className='outer'>
+    <div className='outer' value={props.id} onMouseUp={() => { window.location.href = `/showcontent/${props.id}`; }}>
       <div className='inner'>{props.title}</div>
-      <div className='inner'></div>
       <div className='inner'>{props.content}</div>
+      <div className='inner'>{props.time}</div>
     </div>
   );
 }
-
 
 function MainPage() {
   const [list, setList] = useState([]);
@@ -20,7 +21,6 @@ function MainPage() {
   let currentMonth = new Date().getMonth() + 1;
   let currentDate = new Date().getDate();
   let today = currentYear + '/' + currentMonth + '/' + currentDate;
-
 
   const todayMealTable = async () => {
     axios.get("/api/todayMenu").then(
@@ -73,11 +73,12 @@ function MainPage() {
     var idArray = [];
     for(var id of arr) idArray.push(id);
     axios.post('/api/get',{idArray:idArray}).then((res)=>{
-      const reverseArr = res.data.reverse().slice(0,8);
+      const reverseArr = res.data.reverse().slice(0,8); // 8개만 띄우기
       setList(reverseArr);
       console.log(reverseArr);
     })
-  }
+  };
+
 
   useEffect(() => {
     todayMealTable();
@@ -99,10 +100,10 @@ function MainPage() {
       </div>
       <div className='mainpageUnder'>
         <div>메뉴에 대한 이야기</div>
-        <div>
+        <div className='contentCover'>
           {list.map((item, index) => {
             return (
-              <InnerContent key={index} title={item.title} content={item.content} />
+              <InnerContent key={index} id= {item.id} title={item.title} content={item.content} time={item.time} />
             )
           })}
         </div>

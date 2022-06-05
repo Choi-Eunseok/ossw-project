@@ -4,15 +4,15 @@ import { useEffect, useState } from 'react';
 import './CommuPage.css'
 
 function InnerContent(props) {
+
   return (
-    <div className='outer'>
+    <div className='outer' value={props.id} onMouseUp={() => { window.location.href = `/showcontent/${props.id}`; }}>
       <div className='inner'>{props.title}</div>
-      <div className='inner'></div>
       <div className='inner'>{props.content}</div>
+      <div className='inner'>{props.time}</div>
     </div>
   );
 }
-
 
 function CommuPageYes() {
   const [list2, setList2] = useState([]);
@@ -45,7 +45,7 @@ function CommuPageYes() {
         <div>
           {list2.map((item, index) => {
             return (
-              <InnerContent key={index} title={item.title} content={item.content} />
+              <InnerContent key={index} id= {item.id} time={item.time} title={item.title} content={item.content} />
             )
           })}
         </div>

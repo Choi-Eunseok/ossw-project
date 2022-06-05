@@ -12,6 +12,7 @@ import MenuPage from './Component/MenuPage'; // 학식 메뉴 화면
 import CommuPage from './Component/CommuPage'; // 학식 커뮤 화면(오늘)
 import CommuPageYes from './Component/CommuPageYes'; // 학식 커뮤 화면(어제)
 import Writing from './Component/Writing'; // 글 작성 화면
+import ShowContent from './Component/ShowContent'; // 게시글 보는 화면
 
 import {
   BrowserRouter as Router,
@@ -33,6 +34,7 @@ root.render(
           <Route path="/mealtalk" element={<CommuPage />} />
           <Route path="/mealtalk/yesterday" element={<CommuPageYes />} /> 
           <Route path="/writing" element={<Writing />} />
+          <Route path="/showcontent/:id" element={<ShowContent />}/>
         </Routes>
       </Router>
     </div>
