@@ -1,19 +1,21 @@
 import './App.css';
 import axios from "axios";
 import { useEffect, useState } from 'react';
-import './mainpage.css'
+import './MainPage.css'
 
 function InnerContent(props) {
   return (
-    <div>
-      <div style={{ fontSize: '15px', height: '10px', width: '100%', backgroundColor: '#FDF5E6' }}>{props.title} {props.content}</div>
+    <div className='outer'>
+      <div className='inner'>{props.title}</div>
+      <div className='inner'></div>
+      <div className='inner'>{props.content}</div>
     </div>
   );
 }
 
 
 function MainPage() {
-  const [list, setList] = useState([{ title: '하이', content: '바보' }, { title: '하이2', content: '바보2' }, { title: '하이3', content: '바보3' }]);
+  const [list, setList] = useState([]);
   let currentYear = new Date().getFullYear();
   let currentMonth = new Date().getMonth() + 1;
   let currentDate = new Date().getDate();
@@ -28,6 +30,11 @@ function MainPage() {
           arr_.forEach((elem) => {
             let span_ = document.createElement('div');
             span_.innerHTML = elem;
+            span_.style.borderWidth = '0px';
+            span_.style.textAlign = 'center';
+            span_.style.gridTemplateColumns = '100%';
+            span_.style.backgroundColor = '#FDF5E6';
+            span_.style.padding = '0%';
             dom_.appendChild(span_);
           });
 
@@ -66,8 +73,9 @@ function MainPage() {
     var idArray = [];
     for(var id of arr) idArray.push(id);
     axios.post('/api/get',{idArray:idArray}).then((res)=>{
-      setList(res.data);
-      console.log(res.data);
+      const reverseArr = res.data.reverse().slice(0,8);
+      setList(reverseArr);
+      console.log(reverseArr);
     })
   }
 

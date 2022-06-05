@@ -1,0 +1,67 @@
+.commuPage{
+    height: 90%;
+    width: 80%;
+
+    display:grid;
+    grid-template-rows: 85% 15%;
+
+    margin: 1%;
+
+    background-color: #FDF5E6;
+    
+
+}
+
+.commuPage > :nth-child(1){
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    height:100%;
+}
+.commuPage > :nth-child(1)::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+.commuPage > :nth-child(2){
+    display:flex;
+    justify-content: end;
+    align-items: flex-end;
+}
+.commuPage > :nth-child(2) > button {
+    width: 15%;
+    margin:3% 4%;
+    margin-left: 0%;
+}   
+
+
+.outer {
+    
+    font-size: 10px;
+    height: 30%;
+    max-height: 30px;
+    width: 98%;
+    background-color: #FDF5F3;
+    border:0px solid black;
+    border-bottom: 1px solid black;
+    padding-left:10%;
+    display:grid;
+    grid-template-columns: 15% 20% 40%;
+    grid-template-rows: 100%;
+    align-items: center;
+    padding-top: 1%;
+    margin: 0.5%
+}
+
+.inner{
+    border: 0px solid black;
+    background-color: #FDF5F3;
+    height:100%;
+    max-height: 18px;
+    display: block;
+    text-align: left;
+    padding:0%;
+    margin:0%;
+    overflow: hidden;
+}

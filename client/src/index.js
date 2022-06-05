@@ -7,9 +7,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 //컴포넌트
 import TopBanner from './Component/TopBanner'; // 상단 메뉴
 import SideChat from './Component/SideChat'; // 측면 대기시간 채팅
-import MainPage from './Component/mainpage'; // 초기화면
+import MainPage from './Component/MainPage'; // 초기화면
 import MenuPage from './Component/MenuPage'; // 학식 메뉴 화면
-
+import CommuPage from './Component/CommuPage'; // 학식 커뮤 화면(오늘)
+import CommuPageYes from './Component/CommuPageYes'; // 학식 커뮤 화면(어제)
 import Writing from './Component/Writing'; // 글 작성 화면
 
 import {
@@ -29,7 +30,8 @@ root.render(
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/menu" element={<MenuPage />} />
-          <Route path="/mealtalk" element={<MainPage />} />
+          <Route path="/mealtalk" element={<CommuPage />} />
+          <Route path="/mealtalk/yesterday" element={<CommuPageYes />} /> 
           <Route path="/writing" element={<Writing />} />
         </Routes>
       </Router>
