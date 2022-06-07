@@ -35,9 +35,17 @@ const waitingModel = mongoose.model('waiting', waiting);
 //   res.send({ test: "hi" });
 // });
 
+function getKSTDate(){
+  const curr = new Date();
+  const utc = curr.getTime() + (curr.getTimezoneOffset() * 60 * 1000);
+  const KR_TIME_DIFF = 9 * 60 * 60 * 1000;
+  const kr_curr = new Date(utc + (KR_TIME_DIFF));
+  return kr_curr;
+}
+
 function getCurrentDate(originDate) {
   var date;
-  if (originDate == null) date = new Date();
+  if (originDate == null) date = getKSTDate();
   else date = new Date(originDate);
   var year = date.getFullYear().toString();
 
@@ -51,7 +59,7 @@ function getCurrentDate(originDate) {
 }
 
 function getCurrentTime() {
-  var date = new Date();
+  var date = new getKSTDate();
   var hour = date.getHours();
   hour = hour < 10 ? '0' + hour.toString() : hour.toString();
 
