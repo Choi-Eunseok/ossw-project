@@ -59,7 +59,7 @@ function getCurrentDate(originDate) {
 }
 
 function getCurrentTime() {
-  var date = new getKSTDate();
+  var date = getKSTDate();
   var hour = date.getHours();
   hour = hour < 10 ? '0' + hour.toString() : hour.toString();
 
