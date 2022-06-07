@@ -210,7 +210,7 @@ router.get('/api/waiting', async (req, res) => {                                
     if (waitingList == null) waitingList = []
     else waitingList = waitingList.waiting;
 
-    const date = new Date();
+    const date = getKSTDate();
     var hour = date.getHours();
     hour = hour < 10 ? '0' + hour.toString() : hour.toString();
     var minute = date.getMinutes();
@@ -270,7 +270,7 @@ router.get('/api/menuList', async (req, res) => {                               
     let newRequest = new XMLHttpRequest();
     newRequest.onreadystatechange = () => {
       if (newRequest.status == 200 && newRequest.readyState == 4) {
-        var dt = new Date();
+        var dt = getKSTDate();
         if (dt.getDay() == 0 || dt.getDay() == 6) {
           resJSON0 = JSON.parse(newRequest.responseText).root[0].LASTNEXT[0]
           resJSON1 = JSON.parse(newRequest.responseText).root[0].LASTNEXT[1]
@@ -318,7 +318,7 @@ router.get('/api/todayMenu', async (req, res) => {                              
     let newRequest = new XMLHttpRequest();
     newRequest.onreadystatechange = () => {
       if (newRequest.status == 200 && newRequest.readyState == 4) {
-        var dt = new Date();
+        var dt = getKSTDate();
         if (dt.getDay() > 0 && dt.getDay() < 6) {
           resJSON = JSON.parse(newRequest.responseText).root[0].WEEKLYMENU[0];
           const weekMenu = setting(resJSON);
