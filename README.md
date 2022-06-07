@@ -7,6 +7,11 @@ npm install && cd client && npm install && cd ../
 ```
 npm start
 ```
+> ```Admin permissions are required to run a server on a port below 1024.``` 에러 발생시
+> ```
+> sudo setcap 'cap_net_bind_service=+ep' `which node`
+> ```
+> 실행한뒤 다시 npm start
 
 # 학식 관련된 의견 주고 받는 커뮤니티
 > 친구의 부탁으로 인해 현재 제2기숙사와 학생회관의 학식을 보여주는 앱을 개발했습니다.
