@@ -1,3 +1,5 @@
+
+<div align="center"><img src="./client/src/img/khumeal.png" width="40%" height="40%"></div>
 # 쿠돔카페 (KHU Dorm Cafeteria)
 
 ## About the Project
