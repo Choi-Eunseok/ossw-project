@@ -1,5 +1,5 @@
 
-<div align="center"><img src="./client/src/img/khumeal.png" width="40%" height="40%"></div>
+<div align="center"><img src="https://user-images.githubusercontent.com/61959836/204530992-9cb67993-8413-4c87-985d-9076d8bb130e.png" width="40%" height="40%"></div>
 
 # 쿠돔카페 (KHU Dorm Cafeteria)
 
