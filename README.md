@@ -1,7 +1,9 @@
+# 쿠돔카페 (KHU Dorm Cafeteria)
+### 2022
+### 웹 (백엔드 개발 및 프론트 연결 도와줌)
+### 자바스크립트(express), 리액트, Mongo DB, AWS EC2
 
 <div align="center"><img src="https://user-images.githubusercontent.com/61959836/204530992-9cb67993-8413-4c87-985d-9076d8bb130e.png" width="40%" height="40%"></div>
-
-# 쿠돔카페 (KHU Dorm Cafeteria)
 
 ## About the Project
 "쿠돔카페" 프로젝트
