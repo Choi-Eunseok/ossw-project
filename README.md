@@ -11,6 +11,8 @@
 2. 학식 대기시간 알려주기와 확인
 3. 학식과 관련한 게시물 작성과 수정, 삭제
 
+<img width="100%" alt="image" src="https://user-images.githubusercontent.com/61959836/204709377-9d720d2c-6256-4f2c-8946-39c6cc042079.png">
+
 ## Getting Started
 ### How to Install
 ```
